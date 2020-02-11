@@ -1,6 +1,6 @@
 package javameowmeow;
 
-public interface Database {
+public interface Database_Interface {
 	int IsExist(String path);
 	DataRow ReadRow(long ID);
 	DataRow[] SearchByColumn(String column);
