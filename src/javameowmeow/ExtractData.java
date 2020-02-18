@@ -77,6 +77,10 @@ public class ExtractData extends ExtractData_Abstract{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					System.out.println("Articles processed: " + lArticlesProcessed);
+					System.out.println("Articles skipped: " + lArticlesSkipped);
+					System.out.println("Comments processed: " + lCommentAdded);
+					System.out.println("Comments skipped: " + lCommentSkipped);
 				}
 				
 			}
