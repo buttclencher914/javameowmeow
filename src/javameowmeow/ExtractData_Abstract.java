@@ -1,10 +1,9 @@
 package javameowmeow;
 
 abstract public class ExtractData_Abstract {
-	public int AddData(DataRow dat) //use that to add your data
+	protected boolean AddData(DataRow dat, Database connection) //use that to add your data
 	{
-		// will call Database class, will work on it
-		return 1;
+		return connection.AddData(dat);
 	}
 	abstract public void UpdateStomp(/*add your parameters here*/);
 	abstract public boolean UpdateReddit(int pages, int perpage);

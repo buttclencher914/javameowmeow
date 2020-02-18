@@ -51,11 +51,14 @@ public class ExtractData extends ExtractData_Abstract{
 								dr.article_id = id;
 								dr.content_id = commentID;
 								dr.content = singleComment;
-								boolean addRes = db.AddData(dr);
+								boolean addRes = AddData(dr, db);
 								if (addRes)
 									lCommentAdded++;
 								else
+								{
+									db.Disconnect();
 									return false;
+								}
 							}
 							else
 							{
@@ -84,6 +87,7 @@ public class ExtractData extends ExtractData_Abstract{
 			lPagesProcessed++;
 			
 		}
+		db.Disconnect();
 		return true;
 	}
 
