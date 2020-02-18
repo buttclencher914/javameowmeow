@@ -1,7 +1,5 @@
 package javameowmeow;
 
-import java.util.Collection;
-
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -10,13 +8,19 @@ public class ExtractData extends ExtractData_Abstract{
 		// TODO Auto-generated method stub
 		
 	}
-	public void UpdateReddit(int pages, int perpage) {
+	public boolean UpdateReddit(int pages, int perpage) {
 		long lPagesProcessed = 0;
 		long lPagesSkipped = 0;
 		long lArticlesProcessed = 0;
 		long lArticlesSkipped = 0;
 		long lCommentAdded = 0;
 		long lCommentSkipped = 0;
+		Database db = new Database(Database_Interface.dbpath);
+		boolean connectResult = db.Connect(); //connect to db
+		if (!connectResult)
+		{
+			return false;
+		}
 		Reddit r = new Reddit("singapore", perpage); //create new reddit class for specific subreddit
 		for (int i = 0; i < pages; i++)
 		{
@@ -37,7 +41,27 @@ public class ExtractData extends ExtractData_Abstract{
 						for (int z = 0; z < ja2.size(); z++)
 						{
 							String singleComment = (String)((JSONObject)((JSONObject)ja2.get(z)).get("data")).get("body");
-							/*ACCESS DATABASE HERE*/
+							String commentID = (String)((JSONObject)((JSONObject)ja2.get(z)).get("data")).get("id");
+							/*Check if comment is already in the database*/
+							if (db.SearchByColumn(new String[] {"ARTICLE_ID", "CONTENT_ID"}, new String[]{id, commentID}, true, true).length == 0)
+							{
+								/*If comment doesnt exist*/
+								DataRow dr = new DataRow();
+								dr.source = "reddit";
+								dr.article = title;
+								dr.article_id = id;
+								dr.content_id = commentID;
+								dr.content = singleComment;
+								boolean addRes = db.AddData(dr);
+								if (addRes)
+									lCommentAdded++;
+								else
+									return false;
+							}
+							else
+							{
+								lCommentSkipped++;
+							}
 						}
 					}
 					else
@@ -61,7 +85,7 @@ public class ExtractData extends ExtractData_Abstract{
 			lPagesProcessed++;
 			
 		}
-		
+		return true;
 	}
 
 }

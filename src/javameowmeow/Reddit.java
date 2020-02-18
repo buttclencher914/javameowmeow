@@ -14,9 +14,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class Reddit {
-	String sub; //subreddit
-	String next = "null"; //unique_id for next page
-	int pagesper; //pages per download
+	private String sub; //subreddit
+	private String next = "null"; //unique_id for next page
+	private int pagesper; //pages per download
 public Reddit(String sub, int pages)
 {
 	this.sub = sub;

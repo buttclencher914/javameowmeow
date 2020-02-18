@@ -7,6 +7,6 @@ abstract public class ExtractData_Abstract {
 		return 1;
 	}
 	abstract public void UpdateStomp(/*add your parameters here*/);
-	abstract public void UpdateReddit(int pages, int perpage);
+	abstract public boolean UpdateReddit(int pages, int perpage);
 	
 }
