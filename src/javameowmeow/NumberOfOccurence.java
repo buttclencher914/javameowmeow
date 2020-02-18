@@ -46,12 +46,6 @@ class Connect {
 	public void closeConnection() throws SQLException, Exception {
 		pstmt.close();
 		conn.close();
-	}
-
-	
-	//return sql connection
-	public Connection getConnection() {
-		return conn;
 	}			
 }
 
@@ -107,10 +101,14 @@ public class NumberOfOccurence{
 		Process results = new Process();
 		results.SetResult(prep1, input1);
 		
+		
+		
 		PreparedStatement prep2 = db.connect(input2);
 		Process results2 = new Process();
 		results2.SetResult(prep2, input2);
-
+		
+		//close connection when we are done
+		db.closeConnection();
 	    
 		} catch (SQLException se) {
 			se.printStackTrace();
