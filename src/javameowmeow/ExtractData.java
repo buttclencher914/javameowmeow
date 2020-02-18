@@ -36,7 +36,6 @@ public class ExtractData extends ExtractData_Abstract{
 					JSONArray article = r.DownloadArticle(id); //download the article
 					if (!article.isEmpty())
 					{
-						System.out.println("Yes");
 						JSONArray ja2 = (JSONArray)((JSONObject)((JSONObject)article.get(1)).get("data")).get("children");
 						for (int z = 0; z < ja2.size(); z++)
 						{

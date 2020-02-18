@@ -107,8 +107,17 @@ public class Database implements Database_Interface{
 	}
 
 	public boolean RemoveData(long ID) {
-		//not needed at the moment
-		return false;
+		String sql = "DELETE FROM " + tablename + " WHERE ID=?;";
+		try{
+            PreparedStatement pstmt = this.conn.prepareStatement(sql);  
+            pstmt.setLong(1, ID);
+            pstmt.executeUpdate();
+            return true;
+        }
+        catch (Exception e) 
+        {
+        	return false;
+        }  
 	}
 
 }

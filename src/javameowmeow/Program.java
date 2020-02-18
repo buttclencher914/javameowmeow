@@ -27,7 +27,7 @@ public class Program {
 		boolean addRes = db.AddData(dr); //a boolean value is returned to indicate whether the adding was successful
 		
 		//This is an example usage of a search
-		//This will return all the rows that contain "stomp" or "reddit" in the SOURCE column
+		//This will return all the rows that is "stomp" or "reddit" in the SOURCE column
 		DataRow result[];
 		String a1 = new String[]{"SOURCE", "SOURCE"};
 		String a1 = new String[]{"reddit", "stomp"};
@@ -40,7 +40,7 @@ public class Program {
 		//This is another example to list any reddit comments that contain the word "kitten"
 		//not case sensitive
 		String a1 = new String[]{"SOURCE", "CONTENT"};
-		String a1 = new String[]{"reddit", "kitten"};
+		String a1 = new String[]{"reddit", "%kitten%"};
 		result = db.SearchByColumn(a1, a2, true, false);
 		
 		This is another example to list all reddit content
