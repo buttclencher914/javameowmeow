@@ -14,6 +14,8 @@ import org.json.simple.JSONArray;
 public class ExtractData extends ExtractData_Abstract{
 	public void UpdateStomp() {
 		Document document;
+		Database db = new Database(Database_Interface.dbpath);
+		db.Connect();
 		try {
 			//crawl base URL
 			document = Jsoup.connect("https://stomp.straitstimes.com/tag/e-scooter").get(); 
@@ -46,14 +48,22 @@ public class ExtractData extends ExtractData_Abstract{
 					}
 				}
 				//Output
-				System.out.println("- Title: " + article.text());
-				System.out.println("- Link: " + article.attr("abs:href"));
-				System.out.println("- Article: " + finalText);
-				System.out.println("\n");
-				
+				String articleText = article.text();
+				String articleLink = article.attr("abs:href");
+				if (db.SearchByColumn(new String[] {"ARTICLE_ID"}, new String[] {articleLink}, false, true).length == 0)
+				{
+					DataRow d = new DataRow();
+					d.source = "stomp";
+					d.article = articleText;
+					d.article_id = articleLink;
+					d.content = finalText;
+					db.AddData(d);
+				}
 				
 			}
+			db.Disconnect();
 		} catch(IOException e) {
+			db.Disconnect();
 			System.err.println(e.getMessage());
 		}
 	}
