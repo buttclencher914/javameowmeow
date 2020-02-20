@@ -1,12 +1,61 @@
 package javameowmeow;
 
 import org.json.simple.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.json.simple.JSONArray;
 
 public class ExtractData extends ExtractData_Abstract{
 	public void UpdateStomp() {
-		// TODO Auto-generated method stub
-		
+		Document document;
+		try {
+			//crawl base URL
+			document = Jsoup.connect("https://stomp.straitstimes.com/tag/e-scooter").get(); 
+			//HTML parse for element article links
+			Elements articleLinks = document.select("h3.story-headline a[href]"); 
+			//HTML parse for element comments
+			
+			for(Element article : articleLinks) {
+				String linkHref = article.attr("href"); //get link of each href element
+				Document artDoc = Jsoup.connect(linkHref).get(); //get document of each link
+				Elements e = artDoc.select("div.field-item.even");
+				int bigcount = 0;
+				String finalText = "";
+				
+				//Only retrieve the titles of the articles that contain eScooter or PMD
+				if (article.text().matches("^.*?(escooter|e scooter|e Scooter|E-scooter|E-bike|e bike|eBike|e bike|PMD|pmd|PMDs).*$")) {
+					//Add it into temporary array list 
+					ArrayList<String> temporary = new ArrayList<>();
+					temporary.add(article.text()); //The title of the article
+					temporary.add(article.attr("abs:href")); //the URL of the article
+				}
+				//Stomp Article 
+				for(Element e2: e)
+				{
+					String t = e2.text();
+					if (t.length() > bigcount)
+					{
+						bigcount = t.length();
+						finalText = t;
+					}
+				}
+				//Output
+				System.out.println("- Title: " + article.text());
+				System.out.println("- Link: " + article.attr("abs:href"));
+				System.out.println("- Article: " + finalText);
+				System.out.println("\n");
+				
+				
+			}
+		} catch(IOException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	public boolean UpdateReddit(int pages, int perpage) {
 		long lPagesProcessed = 0;
