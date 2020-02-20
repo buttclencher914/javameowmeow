@@ -5,4 +5,5 @@ module javameowmeow {
 	requires org.apache.httpcomponents.httpclient;
 	requires sqlite.jdbc;
 	requires java.sql;
+	requires org.jsoup;
 }
