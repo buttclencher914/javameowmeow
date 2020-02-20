@@ -20,45 +20,28 @@ class KeyWord {
 class Connect {
 
 	//database directory goes here, might differ according to machine we use
-	final String DB_PATH = "jdbc:sqlite:db/db.db3";
-	Connection conn = null;
-	PreparedStatement pstmt = null;
+	Database db = null;
 
 
 	//establish sql connection and plug user input into prepared statement for sql query
-	public PreparedStatement connect(String input) throws SQLException, Exception {
-		conn = DriverManager.getConnection(DB_PATH);
-
-		//search the content column for our keyword
-		pstmt = conn.prepareStatement("select * from db where content LIKE ?");
-
-		//this part searches for our keyword anywhere in a sentence
-		pstmt.setString(1,'%'+ input+ '%');
-		return pstmt;
+	public DataRow[] connect(String input) throws SQLException, Exception {
+		db = new Database(Database_Interface.dbpath);
+		return db.SearchByColumn(new String[] {"CONTENT"}, new String[] {input}, false, false);
 	}
 
 	public void closeConnection() throws SQLException, Exception {
-		pstmt.close();
-		conn.close();
+		db.Disconnect();
 	}
 }
 
 class Process {
-	public void SetResult(PreparedStatement s, String input) throws SQLException {
+	public void SetResult(DataRow[] dr, String input) throws SQLException {
 		//set the results after execution of query
-	    ResultSet rset = s.executeQuery();
-
-	    //sql query to return columns containing input
-	    System.out.println("The records selected are: ");
-
-	    //we will be using this to count the results obtained
-	    int rowCount = 0;
-
-	    //iterate through the results we have fetched earlier
-	    while(rset.next())
+	    
+		int rowCount = 0;
+	    for (DataRow data: dr)
 	    {   // Move the cursor to the next row, return false if no more row
-	    	int rowNum = rset.getInt("id");
-	        System.out.println(rowNum);
+	        System.out.println(data.content);
 
 	        //increment the count of results when done
 	        ++rowCount;
@@ -91,11 +74,11 @@ public class NumberOfOccurence{
 
 		//this part starts the db connection and also puts input1 into the prepared statement we created earlier
 		//then processing the results we fetched from database
-		PreparedStatement prep1 = db.connect(input1);
+		DataRow[] prep1 = db.connect(input1);
 		Process results = new Process();
 		results.SetResult(prep1, input1);
 
-		PreparedStatement prep2 = db.connect(input2);
+		DataRow[] prep2 = db.connect(input2);
 		Process results2 = new Process();
 		results2.SetResult(prep2, input2);
 
