@@ -38,9 +38,9 @@ public String GetSub()
 {
 	return this.sub;
 }
-public JSONObject DownloadPage()
+public JSONObject DownloadPage(String snext)
 {
-	String url = "https://www.reddit.com/r/" + this.sub + "/new/.json?limit=" + String.valueOf(pagesper) + "&after=" + this.next;
+	String url = "https://www.reddit.com/r/" + this.sub + "/new/.json?limit=" + String.valueOf(pagesper) + "&after=" + snext;
 	String t = DownloadJSONString(url);
 	if (t != null)
 	{

@@ -83,10 +83,11 @@ public class ExtractData extends ExtractData_Abstract{
 		Reddit r = new Reddit("singapore", perpage); //create new reddit class for specific subreddit
 		for (int i = 0; i < pages; i++)
 		{
-			JSONObject j = r.DownloadPage(); //download jsonobject for each page
+			JSONObject j = r.DownloadPage(r.GetNext()); //download jsonobject for each page
 			if (!j.isEmpty())
 			{
 				JSONArray ja = (JSONArray)((JSONObject)j.get("data")).get("children");
+				r.SetNext((String)((JSONObject)j.get("data")).get("after"));
 				for (int x = 0; x < ja.size(); x++)
 				{
 					JSONObject jo = (JSONObject)((JSONObject)ja.get(x)).get("data");
