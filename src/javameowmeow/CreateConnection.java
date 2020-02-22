@@ -11,6 +11,12 @@ public class CreateConnection {
 				return db.SearchByColumn(new String[] {"CONTENT"}, new String[] {"%" + input + "%"}, false, false);
 			}
 
+			public DataRow[] PMDarticles(String input) {
+				db = new Database(Database_Interface.dbpath);
+				db.Connect();
+				return db.SearchByColumn(new String [] {input}, new String[] {"pmd" }, false, false);
+			}
+
 			public void closeConnection() {
 				db.Disconnect();
 }
