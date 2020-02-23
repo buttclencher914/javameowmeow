@@ -7,14 +7,14 @@ public class EnterKeyword {
 	String userinput;
 	String usersrc;
 
-	String getSource() {
+	public String getSource() {
 		System.out.print("Choose a source, Reddit or Stomp: ");
 		usersrc = input.next();
 		System.out.println("You have chosen: " + usersrc);
 		return usersrc;
 	}
 
-	String getKeyWord() {
+	public String getKeyWord() {
 		System.out.println("Enter a keyword to search: ");
 		userinput = input.next();
 		System.out.println("You have entered: " + userinput); //for debugging purposes
