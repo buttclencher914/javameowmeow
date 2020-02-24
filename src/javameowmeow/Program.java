@@ -10,31 +10,52 @@ public class Program {
 		System.out.println("Java Crawler - Group 2");
 		System.out.println(
 				"====================================================================================================================================");
-		System.out.println("Select source to view all comments: ");
+		System.out.println("Select source to view data");
 		System.out.println("1. Reddit");
 		System.out.println("2. Stomp");
+		System.out.println("3. Both");
 		int choice = input.nextInt();
-		while (choice != 1 && choice != 2) {
-			System.out.println("Enter only option 1 or 2!");
+		while (choice != 1 && choice != 2 && choice != 3) {
+			System.out.println("Please enter a valid value");
 			choice = input.nextInt();
 		}
+		System.out.println("Enter search string, seperated by commas if you need content with multiple matches");
+		String searchString = input.next();
+		String searchStringArray[] = searchString.split(",");
 
-		User u = new User(choice);
-		DataRow result[];
-		String src;
+		//User u = new User(choice);
+		DataRow result[] = null;
 		Database db = new Database(Database_Interface.dbpath);
 		boolean connectResult = db.Connect();
 
-		if (choice == 1) {
-			src = "reddit";
-			result = db.SearchByColumn(new String[] { "SOURCE" }, new String[] { "reddit" }, false, true);
-			for (DataRow dr : result) {
-				System.out.println(dr.source + " | " + dr.content);
-			}
-
-		} else {
-			src = "stomp";
-			result = db.SearchByColumn(new String[] { "SOURCE" }, new String[] { "stomp" }, false, true);
+		
+		int looplen = searchStringArray.length + 1;
+		String searcha1[] = new String[looplen];
+		String searcha2[] = new String[looplen];
+		searcha1[0] = "SOURCE";
+		
+		for (int i = 1; i < looplen; i++)
+		{
+			searcha1[i] = "CONTENT";
+			searcha2[i] = "%" + searchStringArray[i - 1] + "%";
+		}
+		
+		if (choice == 1)
+		{
+			searcha2[0] = "reddit";
+		}
+		else if(choice == 2)
+		{
+			searcha2[0] = "stomp";
+		}
+		else
+		{
+			searcha2[0] = "%";
+		}
+		result = db.SearchByColumn(searcha1, searcha2, true, false);
+		System.out.println(result.length + " results found. Do you want to display them? Y/n");
+		if (input.next().toLowerCase().contains("y"))
+		{
 			for (DataRow dr : result) {
 				System.out.println(dr.source + " | " + dr.content);
 			}
