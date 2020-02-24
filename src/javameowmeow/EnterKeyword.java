@@ -7,23 +7,25 @@ public class EnterKeyword {
 	String userinput;
 	String usersrc;
 
-	public String getSource() {
-		System.out.print("Choose a source, Reddit or Stomp: ");
-		usersrc = input.next();
-		System.out.println("You have chosen: " + usersrc);
-		return usersrc;
+	public int getSource() {
+		System.out.println("Select source to view data");
+		System.out.println("1. Reddit");
+		System.out.println("2. Stomp");
+		System.out.println("3. Both");
+		int choice = input.nextInt();
+		while (choice != 1 && choice != 2 && choice != 3) {
+			System.out.println("Please enter a valid value");
+			choice = input.nextInt();
+	}
+		return choice;
 	}
 
-	public String getKeyWord() {
-		System.out.println("Enter a keyword to search: ");
+	public String[] getKeyWord() {
+		System.out.println("Enter search string, separated by commas if you need content with multiple matches");
 		userinput = input.next();
-		System.out.println("You have entered: " + userinput); //for debugging purposes
+		String searchStringArray[] = userinput.split(",");
 
-		while(!userinput.matches("[a-zA-Z0-9]+")){ //check to make sure user enters only alphabets
-			System.out.println("Please enter only ALPHABETS!");
-			userinput = input.next();
-		}
-		return userinput;
+		return searchStringArray;
 
 }
 }
