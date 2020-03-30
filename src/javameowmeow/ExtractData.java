@@ -13,7 +13,6 @@ import org.json.simple.JSONArray;
 
 public class ExtractData extends ExtractData_Abstract{
 	public void UpdateStomp() {
-		//Database connection
 		Document document;
 		Database db = new Database(Database_Interface.dbpath);
 		db.Connect();
@@ -32,8 +31,7 @@ public class ExtractData extends ExtractData_Abstract{
 				String finalText = "";
 				
 				//Only retrieve the titles of the articles that contain eScooter or PMD
-				if (article.text().matches("^.*?(escooter|e scooter|e Scooter|E-scooter|E-bike"
-						+ "|e bike|eBike|e bike|PMD|pmd|PMDs).*$")) {
+				if (article.text().matches("^.*?(escooter|e scooter|e Scooter|E-scooter|E-bike|e bike|eBike|e bike|PMD|pmd|PMDs).*$")) {
 					//Add it into temporary array list 
 					ArrayList<String> temporary = new ArrayList<>();
 					temporary.add(article.text()); //The title of the article
@@ -52,10 +50,7 @@ public class ExtractData extends ExtractData_Abstract{
 				//Output
 				String articleText = article.text();
 				String articleLink = article.attr("abs:href");
-				
-				//add it into database row
-				if (db.SearchByColumn(new String[] {"ARTICLE_ID"}, new String[] {articleLink}, false, 
-						true).length == 0)
+				if (db.SearchByColumn(new String[] {"ARTICLE_ID"}, new String[] {articleLink}, false, true).length == 0)
 				{
 					DataRow d = new DataRow();
 					d.source = "stomp";
@@ -66,7 +61,6 @@ public class ExtractData extends ExtractData_Abstract{
 				}
 				
 			}
-			//database disconnection
 			db.Disconnect();
 		} catch(IOException e) {
 			db.Disconnect();
