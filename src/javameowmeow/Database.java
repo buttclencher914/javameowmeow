@@ -37,7 +37,7 @@ public class Database implements Database_Interface{
 		}
 	}
 
-	public DataRow[] SearchByColumn(String column[], String[] searchString, boolean ANDcondition, boolean caseSensitive) {
+	public DataRow[] SearchByColumn(String column[], String searchString[], boolean ANDcondition, boolean caseSensitive) {
 		String sql = "SELECT ID, SOURCE, ARTICLE_ID, ARTICLE, CONTENT_ID, CONTENT FROM " + tablename + " WHERE ";
 		for (int i = 0; i < column.length; i++)
 		{

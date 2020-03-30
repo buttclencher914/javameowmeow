@@ -5,10 +5,15 @@ public class CreateConnection {
 			Database db = null;
 
 			//establish sql connection and plug user input into prepared statement for sql query
-			public DataRow[] connect(String input){
+			public void estabConnection(){
 				db = new Database(Database_Interface.dbpath);
 				db.Connect();
-				return db.SearchByColumn(new String[] {"CONTENT"}, new String[] {"%" + input + "%"}, false, false);
+			}
+
+			public DataRow[] Search(String[] input1, String[] input2){
+				db = new Database(Database_Interface.dbpath);
+				db.Connect();
+				return db.SearchByColumn(input1, input2, true, false);
 			}
 
 			public DataRow[] PMDarticles(String input) {

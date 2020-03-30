@@ -14,7 +14,7 @@ import org.json.simple.JSONArray;
 public class ExtractData extends ExtractData_Abstract{
 	public void UpdateStomp() {
 		Document document;
-		Database db = new Database(Database_Interface.dbpath);
+		Database_Interface db = new Database(Database_Interface.dbpath);
 		db.Connect();
 		try {
 			//crawl base URL
@@ -57,7 +57,7 @@ public class ExtractData extends ExtractData_Abstract{
 					d.article = articleText;
 					d.article_id = articleLink;
 					d.content = finalText;
-					db.AddData(d);
+					AddData(d, db);
 				}
 				
 			}
@@ -74,7 +74,7 @@ public class ExtractData extends ExtractData_Abstract{
 		long lArticlesSkipped = 0;
 		long lCommentAdded = 0;
 		long lCommentSkipped = 0;
-		Database db = new Database(Database_Interface.dbpath);
+		Database_Interface db = new Database(Database_Interface.dbpath);
 		boolean connectResult = db.Connect(); //connect to db
 		if (!connectResult)
 		{
